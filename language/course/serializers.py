@@ -92,6 +92,12 @@ class TeacherSerializer(serializers.ModelSerializer):
         fields = ['id', 'full_name', 'status']
 
 
+class TeacherNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ['full_name']
+
+
 class TeacherDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
@@ -104,4 +110,77 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = ['id', 'full_name', 'status']
 
+
+class StudentNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ['full_name']
+
+
+class AssignmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assignment
+        fields = ['title',]
+
+
+class AssignmentListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assignment
+        fields = ['title', 'description', 'due_date', 'level', 'lesson_id', 'students', 'type', 'submitted_by', 'language_company']
+
+
+class ExamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
+        fields = ['title', 'course']
+
+class ExamCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
+        fields = '__all__'
+
+
+class ExamDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
+        fields = ['title', 'description', 'course', 'passing_score', 'duration', 'questions']
+
+class TeacherReviewListSerializer(serializers.ModelSerializer):
+    student = StudentNameSerializer(read_only=True)
+    teacher = TeacherNameSerializer(read_only=True)
+    created_date = serializers.DateTimeField(format='%d-%m-%Y  %H:%M')
+
+    class Meta:
+        model = TeacherReview
+        fields = ['id', 'student', 'teacher','text', 'stars', 'created_date',]
+
+class CertificateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Certificate
+        fields = ['student', 'course', 'issued_at', 'certificate_url' ]
+
+
+class CourseReviewListSerializer(serializers.ModelSerializer):
+    created_date = serializers.DateTimeField(format='%d-%m-%Y  %H:%M')
+    class Meta:
+        model = CourseReview
+        fields = ['student', 'text', 'stars','created_date']
+
+
+class CourseReviewDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseReview
+        fields = '__all__'
+
+
+class TeacherReviewCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeacherReview
+        fields = '__all__'
+
+
+class CourseReviewCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseReview
+        fields = '__all__'
 

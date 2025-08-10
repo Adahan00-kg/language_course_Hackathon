@@ -5,7 +5,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
-
+from .permissions import *
 
 class TeacherRegisterView(generics.CreateAPIView):
     serializer_class = TeacherRegisterSerializer
@@ -80,3 +80,78 @@ class TeacherAPIView(generics.ListAPIView):
 class TeacherRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherDetailSerializer
+
+
+class AssignmentCreateAPIView(generics.CreateAPIView):
+    serializer_class = AssignmentListSerializer
+
+
+class AssignmentAPIView(generics.ListAPIView):
+    queryset = Assignment.objects.all()
+    serializer_class = AssignmentSerializer
+
+    def get_queryset(self):
+        return Assignment.objects.filter(id=self.request.user.id)
+
+
+class AssignmentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Assignment.objects.all()
+    serializer_class = AssignmentListSerializer
+
+
+class ExamRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = Exam.objects.all()
+    serializer_class = ExamDetailSerializer
+
+
+class ExamCreateAPIView(generics.CreateAPIView):
+    serializer_class = ExamCreateSerializer
+
+
+class ExamAPIView(generics.ListAPIView):
+    queryset = Exam.objects.all()
+    serializer_class = ExamSerializer
+
+    def get_queryset(self):
+        return Exam.objects.filter(id=self.request.user.id)
+
+
+class CertificateListAPIView(generics.ListAPIView):
+    queryset = Certificate.objects.all()
+    serializer_class = CertificateSerializer
+
+
+class CertificateCreateAPIView(generics.CreateAPIView):
+    serializer_class = CertificateSerializer
+
+class CourseReviewListAPIView(generics.ListAPIView):
+    queryset = CourseReview.objects.all()
+    serializer_class = CourseReviewListSerializer
+
+
+class CourseRetrieveDestroyAPIView(generics.RetrieveDestroyAPIView):
+    queryset = CourseReview.objects.all()
+    serializer_class = CourseReviewDetailSerializer
+    permission_classes = [CheckEditTeacher]
+
+
+class CourseReviewCreateAPIView(generics.CreateAPIView):
+    queryset = CourseReview.objects.all()
+    serializer_class = CourseReviewCreateSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, CheckStudentReview]
+
+
+class TeacherReviewListAPIView(generics.ListAPIView):
+    queryset = TeacherReview.objects.all()
+    serializer_class = TeacherReviewListSerializer
+
+
+class TeacherReviewDetailUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TeacherReview.objects.all()
+    serializer_class = TeacherReviewCreateSerializer
+    permission_classes = [CheckEditTeacher]
+
+
+class TeacherReviewCreateAPIView(generics.CreateAPIView):
+    serializer_class = TeacherReviewCreateSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, CheckStudentReview]

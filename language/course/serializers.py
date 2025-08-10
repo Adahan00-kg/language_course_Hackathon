@@ -4,6 +4,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 
 
+
+
 class TeacherRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
@@ -104,4 +106,30 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = ['id', 'full_name', 'status']
 
+
+
+class CourseCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseCompanyModels
+        fields = ['course_company_name','photo']
+
+
+class CourseLanguageListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseLanguageModels
+        fields = ['connect_company','language_name','level',
+                  'price','time_start','time_end']
+
+
+class CourseLanguageDetailSerializer(serializers.ModelSerializer):
+    connect_company = CourseCompanySerializer()
+    class Meta:
+        model  = CourseLanguageModels
+        fields = '__all__'
+
+
+class LessonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LessonModels
+        fields = '__all__'
 

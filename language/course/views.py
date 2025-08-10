@@ -5,8 +5,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
-
-
+from rest_framework import viewsets
 class TeacherRegisterView(generics.CreateAPIView):
     serializer_class = TeacherRegisterSerializer
 
@@ -80,3 +79,24 @@ class TeacherAPIView(generics.ListAPIView):
 class TeacherRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherDetailSerializer
+
+
+class CourseCompanyListAPIView(generics.ListAPIView):
+    queryset = CourseCompanyModels.objects.all()
+    serializer_class = CourseCompanySerializer
+
+
+class CourseLanguageListAPIView(generics.ListAPIView):
+    queryset = CourseLanguageModels.objects.all()
+    serializer_class = CourseLanguageListSerializer
+
+
+class CourseLanguageDetailAPIView(generics.RetrieveAPIView):
+    queryset = CourseLanguageModels.objects.all()
+    serializer_class = CourseLanguageDetailSerializer
+
+class LessonListAPIView(generics.ListAPIView):
+    queryset = LessonModels.objects.all()
+    serializer_class = LessonSerializer
+
+

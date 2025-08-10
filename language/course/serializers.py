@@ -186,11 +186,17 @@ class CourseReviewCreateSerializer(serializers.ModelSerializer):
         model = CourseReview
         fields = '__all__'
 
+class CourseLanguageMidlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseLanguageModels
+        fields = ['language_name']
+
 
 class CourseCompanySerializer(serializers.ModelSerializer):
+    language = CourseLanguageMidlSerializer(many=True)
     class Meta:
         model = CourseCompanyModels
-        fields = ['course_company_name','photo']
+        fields = ['course_company_name','photo','language']
 
 
 class CourseLanguageListSerializer(serializers.ModelSerializer):

@@ -15,6 +15,11 @@ LEVEL_CHOICES = (
     ('C1','C1')
 )
 
+STATUS_CHOICES = (
+    ('student', 'student'),
+    ('teacher', 'teacher'),
+)
+
 class UserProfile(AbstractUser):
     full_name = models.CharField(max_length=128)
 

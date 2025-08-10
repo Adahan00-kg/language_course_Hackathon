@@ -6,8 +6,11 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 from .permissions import *
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+from .filters import CourseFilter
 
-from rest_framework import viewsets
+
 class TeacherRegisterView(generics.CreateAPIView):
     serializer_class = TeacherRegisterSerializer
 
@@ -76,6 +79,8 @@ class StudentDetailUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView):
 class TeacherAPIView(generics.ListAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['full_name']
 
 
 class TeacherRetrieveAPIView(generics.RetrieveAPIView):
@@ -91,17 +96,19 @@ class CourseCompanyListAPIView(generics.ListAPIView):
 class CourseLanguageListAPIView(generics.ListAPIView):
     queryset = CourseLanguageModels.objects.all()
     serializer_class = CourseLanguageListSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    search_fields = ['course_name']
+    ordering_fields = ['price']
 
 
 class CourseLanguageDetailAPIView(generics.RetrieveAPIView):
     queryset = CourseLanguageModels.objects.all()
     serializer_class = CourseLanguageDetailSerializer
 
+
 class LessonListAPIView(generics.ListAPIView):
     queryset = LessonModels.objects.all()
     serializer_class = LessonSerializer
-
-
 
 
 class AssignmentCreateAPIView(generics.CreateAPIView):
@@ -145,6 +152,7 @@ class CertificateListAPIView(generics.ListAPIView):
 
 class CertificateCreateAPIView(generics.CreateAPIView):
     serializer_class = CertificateSerializer
+
 
 class CourseReviewListAPIView(generics.ListAPIView):
     queryset = CourseReview.objects.all()
